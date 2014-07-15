@@ -1,0 +1,84 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<link href="css/reloj.css" rel="stylesheet" type="text/css" />
+<title>Reloj Canvas</title>
+
+<script type="text/javascript" src="js/zepto.js"></script>
+<script type="application/javascript">
+function x2(n,i,x1,r){return x1 + r*Math.sin(2*Math.PI*n/i);};
+
+function y2(n,i,y1,r){return y1 - r*Math.cos(2*Math.PI*n/i);};
+
+
+function linea(ctx,x1,y1,x2,y2,width,color){
+	ctx.beginPath();	//comenzar una nueva linea
+	ctx.moveTo(x1,y1);//comienzo de linea
+	ctx.lineTo(x2,y2);//Finial de linea
+	
+	ctx.strokeStyle=color;//Color de linea
+	ctx.lineWidth=width;//anchura de linea:5 puntos
+	ctx.stroke();//dibujar linea
+	}
+	function circulo(ctx,x,y,r,width,color){
+	ctx.beginPath();//comenzar figura
+		//añadir arco(circulo entero)
+ctx.arc(x,y,r,0,2*Math.PI);//ctx.arc(x,y,r,star,stop
+ctx.strokeStyle=color;//color de la linea del circulo
+ctx.lineWidth=width;//anchura de la linea del circulo
+ctx.stroke();//dibujar circilo
+	
+		}
+		
+	function mostrar_hora(ctx){
+		var d=new Date();
+		var h=d.getHours();
+		var m=d.getMinutes();
+		var s=d.getSeconds();
+		$("#tex").html(h+ ":" + m +":" + s);
+		ctx.clearRect(0,0,200,200)
+		circulo(ctx,100,100,100,3,"black");
+linea(ctx,100,100,x2(h,12,100,30),y2(h,12,100,50),5,"grey");
+
+linea(ctx,100,100,x2(m,60,100,40),y2(m,60,100,60),3,"grey");
+
+linea(ctx,100,100,x2(s,60,100,50),y2(s,60,100,100),1,"red");
+		
+		}
+		
+		
+	$(function(){
+		var c=document.getElementById("myCanvas");
+		
+		if(c.getContext){
+			var ctx=c.getContext("2d");
+			mostrar_hora(ctx);
+			
+			setInterval(function(){mostrar_hora(ctx);},1000)
+			
+		//	myCircle(ctx,80,80,50,3,"black");
+			//myline(ctx,80,80,110,80,5,"grey");
+			//myline(ctx,80,80,110,40,3,"grey");
+		//	myline(ctx,80,80,115,45,1,"red");
+
+			}
+			
+		
+		})
+	
+
+</script>
+
+</head>
+
+<body>
+<h4>Reloj Canvas</h4>
+<div class="mitad">
+<div id="tex">texto</div></div><br><br>
+<center>
+<canvas id="myCanvas" width="200" height="200">
+</canvas></center>
+
+</body>
+</html>
